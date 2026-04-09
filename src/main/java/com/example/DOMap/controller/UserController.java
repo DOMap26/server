@@ -1,6 +1,9 @@
 package com.example.DOMap.controller;
 
+import com.example.DOMap.dto.SignupRequestDto;
+import com.example.DOMap.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,4 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api") // 모은 주소는 "/api"로 시작
 public class UserController {
 
+    private final UserService userService;
+
+    public String signup(@RequestBody SignupRequestDto request) {
+        userService.signup(request);
+
+        return "회원가입 성공!";
+    }
 }
