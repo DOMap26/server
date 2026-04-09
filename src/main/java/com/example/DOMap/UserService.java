@@ -20,5 +20,9 @@ public class UserService {
             // 예외를 던짐
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+        userRepository.findByUsername(request.getUsername())
+                .ifPresent(user -> {
+                    throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+                });
     }
 }
