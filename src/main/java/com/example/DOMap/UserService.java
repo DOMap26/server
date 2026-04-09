@@ -28,5 +28,10 @@ public class UserService {
                     // 예외를 던짐
                     throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
                 });
+        // email 중복 체크
+        userRepository.findByEmail(request.getEmail())
+                .ifPresent(user -> {
+                    throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+                });
     }
 }
