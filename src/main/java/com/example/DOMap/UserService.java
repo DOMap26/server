@@ -34,6 +34,8 @@ public class UserService {
                     throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
                 });
         // 비밀번호 암호화
+        // passwordEncoder : 스프링 시큐리티에서 제공하는 인터페이스(비밀번호를 암호화함)
+        //.encode(request.getPassword()) : 사용자가 비밀번호를 입력하면 무작위값을 섞어서 암호화를 적용
         String encodedPassword = passwordEncoder.encode(request.getPassword());
     }
 }
