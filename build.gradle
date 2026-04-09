@@ -41,7 +41,7 @@ dependencies {
 	// DevTools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// Swagger
+	// Swagger (선택 but 강추)
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
 	// 테스트
