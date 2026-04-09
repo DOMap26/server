@@ -14,7 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 사용자 아이디 값이 비어있을 수 없으며, 고유값이어야함
+    // 사용자 아이디 값이 비어있을 수 없으며, 고유값
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -22,4 +22,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    // 이메일(값이 비어있을 수 없으며, 고유값
+    @Column(nullable = false, unique = true)
+    private String email;
 }
