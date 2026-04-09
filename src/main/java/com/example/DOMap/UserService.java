@@ -20,8 +20,12 @@ public class UserService {
             // 예외를 던짐
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+        // username 중복 확인
+        // findBy 메서드를 활용하여서 username을 찾음
         userRepository.findByUsername(request.getUsername())
+                // 만약 사용자가 입력한 값이 안에 존재한다면
                 .ifPresent(user -> {
+                    // 예외를 던짐
                     throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
                 });
     }
