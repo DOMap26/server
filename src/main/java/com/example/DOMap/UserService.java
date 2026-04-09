@@ -33,5 +33,7 @@ public class UserService {
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
                 });
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
     }
 }
