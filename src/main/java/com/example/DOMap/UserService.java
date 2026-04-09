@@ -1,6 +1,7 @@
 package com.example.DOMap;
 
 import com.example.DOMap.dto.SignupRequestDto;
+import com.example.DOMap.entity.User;
 import com.example.DOMap.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,5 +38,12 @@ public class UserService {
         // passwordEncoder : 스프링 시큐리티에서 제공하는 인터페이스(비밀번호를 암호화함)
         //.encode(request.getPassword()) : 사용자가 비밀번호를 입력하면 무작위값을 섞어서 암호화를 적용
         String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        // User 객체 생성
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(encodedPassword)
+                .email(request.getEmail())
+                .build();
     }
 }
