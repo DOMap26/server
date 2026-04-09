@@ -45,5 +45,8 @@ public class UserService {
                 .password(encodedPassword)
                 .email(request.getEmail())
                 .build();
+
+        // DB에 저장
+        userRepository.save(user);
     }
 }
