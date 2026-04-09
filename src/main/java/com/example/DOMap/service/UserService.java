@@ -1,4 +1,4 @@
-package com.example.DOMap;
+package com.example.DOMap.service;
 
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.entity.User;
