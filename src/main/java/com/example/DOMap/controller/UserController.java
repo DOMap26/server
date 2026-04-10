@@ -3,6 +3,7 @@ package com.example.DOMap.controller;
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +15,12 @@ public class UserController {
 
     private final UserService userService;
 
+    // 회원가입 API
+    @PostMapping("/signup") // "/api/signup"
+    // 사용자가 보낸 JSON 데이터를 자동 변환해서 담음
     public String signup(@RequestBody SignupRequestDto request) {
-        userService.signup(request);
+        userService.signup(request); // request 정보를 UserService로 넘김
 
-        return "회원가입 성공!";
+        return "회원가입 성공!"; // 에러없이 돌아오면 리턴
     }
 }
