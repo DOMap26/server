@@ -1,5 +1,6 @@
 package com.example.DOMap.controller;
 
+import com.example.DOMap.dto.LoginRequestDto;
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,12 @@ public class UserController {
         userService.signup(request); // request 정보를 UserService로 넘김
 
         return "회원가입 성공!"; // 에러없이 돌아오면 리턴
+    }
+
+    // 로그인 API
+    @PostMapping("/login") // "/api/login"
+    public String login(@RequestBody LoginRequestDto request) {
+        // 로그인 로직을 Service에 맡김
+        return userService.login(request);
     }
 }
