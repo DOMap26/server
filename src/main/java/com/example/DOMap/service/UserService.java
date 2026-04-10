@@ -1,11 +1,14 @@
 package com.example.DOMap.service;
 
+import com.example.DOMap.dto.LoginRequestDto; // 로그인 DTO 추가
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.entity.User;
 import com.example.DOMap.repository.UserRepository;
+import com.example.DOMap.jwt.JwtUtil; // JWT 유틸 추가
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor // 생성자 주입
@@ -48,5 +51,11 @@ public class UserService {
 
         // DB에 저장
         userRepository.save(user);
+    }
+
+    public String login(LoginRequestDto request) {
+
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
     }
 }
