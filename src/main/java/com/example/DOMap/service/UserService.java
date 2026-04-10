@@ -1,11 +1,14 @@
 package com.example.DOMap.service;
 
+import com.example.DOMap.dto.LoginRequestDto; // 로그인 DTO 추가
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.entity.User;
 import com.example.DOMap.repository.UserRepository;
+import com.example.DOMap.jwt.JwtUtil; // JWT 유틸 추가
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor // 생성자 주입
@@ -49,4 +52,26 @@ public class UserService {
         // DB에 저장
         userRepository.save(user);
     }
+
+    public String login(LoginRequestDto request) {
+
+        // 사용자 조회(username을 활용하여서 DB 검색)
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        // 비밀번호 검증
+        // equals대신 matches를 사용한 이유 : 비밀번호는 암호화했으므로 비교도 암호화 방식으로 해야함
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("비밀본호가 틀렸습니다.");
+        }
+
+        // JwtUtil(토큰을 만드는 법을 정의) <-> UserService(언제 토큰을 만들지, 토큰을 받는 역할)
+        // 로그인 성공하면 JWT 토큰 받음(JwtUtil에서 만든 기능을 호출해서 만드는 것)
+        String token = JwtUtil.createToken(user.getUsername());
+
+        // 토큰 반환
+        return token;
+    }
+
+
 }
