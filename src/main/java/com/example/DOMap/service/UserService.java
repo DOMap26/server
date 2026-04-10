@@ -61,6 +61,10 @@ public class UserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("비밀본호가 틀렸습니다.");
         }
+
+        String token = JwtUtil.createToken(user.getUsername());
+
+        return token;
     }
 
 
