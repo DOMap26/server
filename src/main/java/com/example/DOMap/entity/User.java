@@ -5,9 +5,9 @@ import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 외부 접근 통제
 @AllArgsConstructor
-@Builder
+@Builder // 객체 생성을 쉽게 해줌
 public class User {
 
     @Id
