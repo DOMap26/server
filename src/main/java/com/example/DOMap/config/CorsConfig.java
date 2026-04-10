@@ -16,7 +16,7 @@ public class CorsConfig {
             // CORS 설정을 추가하는 메서드
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 모든 URL 허용
-                        .allowedOrigins("*") // 모든 출처 허용
+                        .allowedOrigins("*") // 모든 출처 허용(만약 프론트와 백의 서버 API가 다를 때 브라우저가 요청 자체를 막아서 연결을 제대로 못함)
                         .allowedMethods("*"); // 모든 메서드 허용
             }
         };
