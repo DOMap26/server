@@ -1,4 +1,4 @@
-package com.example.DOMap;
+package com.example.DOMap.service;
 
 import com.example.DOMap.dto.SignupRequestDto;
 import com.example.DOMap.entity.User;
@@ -39,11 +39,14 @@ public class UserService {
         //.encode(request.getPassword()) : 사용자가 비밀번호를 입력하면 무작위값을 섞어서 암호화를 적용
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        // User 객체 생성
+        // User 객체 생성(DTO -> Entity로 DB용으로 바꿀 때 객체)
         User user = User.builder()
                 .username(request.getUsername())
                 .password(encodedPassword)
                 .email(request.getEmail())
                 .build();
+
+        // DB에 저장
+        userRepository.save(user);
     }
 }
