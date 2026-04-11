@@ -18,6 +18,11 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response, // 서버가 사용자에게 보내는 응답
                                     FilterChain filterChain) // 다음 단계로 넘기는 역할
         throws ServletException, IOException {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            String username = JwtUtil.getUsername(token);
+        }
 
     }
 }
