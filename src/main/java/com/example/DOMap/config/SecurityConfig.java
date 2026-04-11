@@ -1,5 +1,6 @@
 package com.example.DOMap.config;
 
+import com.example.DOMap.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/signup").permitAll() // 회원가입 허용
                         .anyRequest().authenticated() // 회원가입 제외 전부 로그인 필요
                 );
+        http.addFilterBefore(new JwtFilter(),
+                org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+
         return http.build(); // 보안 시스템 완성 적용
     }
 }
