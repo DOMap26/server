@@ -27,26 +27,44 @@ public class JwtFilter extends OncePerRequestFilter {
         // 헤더를 가져옴(요청에서 Authorization : Bearer eyjh...를 꺼냄)
         String authHeader = request.getHeader("Authorization");
 
+        // 디버깅용: 헤더 확인 (처음 테스트할 때 매우 중요)
+        System.out.println("Authorization Header: " + authHeader);
+
         // 토큰이 있는 경우에만 JWT 검사 진행
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-            // 토큰 앞에 "Bearer "를 제거하고 토큰만 꺼내야함 따라서 substring을 활용해 7글자를 지움
-            String token = authHeader.substring(7);
+            try {
+                // 토큰 앞에 "Bearer "를 제거하고 토큰만 꺼내야함 따라서 substring을 활용해 7글자를 지움
+                String token = authHeader.substring(7);
 
-            // JwtUtil에서 username을 추출
-            String username = JwtUtil.getUsername(token);
+                // 디버깅용: 토큰 확인
+                System.out.println("JWT Token: " + token);
 
-            // 권한을 반드시 넣어줘야 Spring Security가 인증된 사용자로 인정함
-            List<SimpleGrantedAuthority> authorities =
-                    List.of(new SimpleGrantedAuthority("ROLE_USER"));
+                // JwtUtil에서 username을 추출
+                String username = JwtUtil.getUsername(token);
 
-            // 이미 인증된 사용자이므로 username + 권한을 넣어 Authentication 객체 생성
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            username, null, authorities);
+                // 디버깅용: username 확인
+                System.out.println("JWT Username: " + username);
 
-            // 지금 요청의 로그인 정보를 저장하는 곳
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 권한을 반드시 넣어줘야 Spring Security가 인증된 사용자로 인정함
+                List<SimpleGrantedAuthority> authorities =
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+                // 이미 인증된 사용자이므로 username + 권한을 넣어 Authentication 객체 생성
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                username, null, authorities);
+
+                // 지금 요청의 로그인 정보를 저장하는 곳
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (Exception e) {
+                // JWT 파싱 실패 시 에러 출력 (이게 핵심 디버깅 포인트)
+                System.out.println("JWT 에러 발생: " + e.getMessage());
+            }
+        } else {
+            // 토큰 자체가 없는 경우
+            System.out.println("JWT 없음 또는 형식 틀림");
         }
 
         // 다음 단계 요청으로 넘기는 코드
