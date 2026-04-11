@@ -55,8 +55,14 @@ public class JwtFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(
                                 username, null, authorities);
 
-                // 지금 요청의 로그인 정보를 저장하는 곳
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // ⭐ 이미 인증된 상태면 덮어쓰지 않도록 체크 (안정성 증가)
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                    // 지금 요청의 로그인 정보를 저장하는 곳
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // 디버깅용: 인증 저장 확인
+                    System.out.println("Authentication 저장 완료");
+                }
 
             } catch (Exception e) {
                 // JWT 파싱 실패 시 에러 출력 (이게 핵심 디버깅 포인트)
