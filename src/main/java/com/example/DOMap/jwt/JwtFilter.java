@@ -17,10 +17,15 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, // 사용자가 보낸 모든 정보(URL, 헤더, body)
                                     HttpServletResponse response, // 서버가 사용자에게 보내는 응답
                                     FilterChain filterChain) // 다음 단계로 넘기는 역할
+
         throws ServletException, IOException {
+        // 헤더를 가져옴(요청에서 Authorization : Bearer eyjh...를 꺼냄)
         String authHeader = request.getHeader("Authorization");
+        // 토큰이 없는 요청을 막고 JWT 토큰을 검사하기 위한 코드 작성
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            // 토큰 앞에 "Bearer "를 제거하고 토큰만 꺼내야함 따라서 substring을 활용해 7글자를 지움
             String token = authHeader.substring(7);
+            // JwtUtil에서 username활용으로 토큰을 가져옴
             String username = JwtUtil.getUsername(token);
         }
 
