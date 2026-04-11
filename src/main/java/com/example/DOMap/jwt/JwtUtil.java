@@ -3,13 +3,16 @@ package com.example.DOMap.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
 
-    // mysecretkey라는 암호를 사용하여서 SECRET_KEY라는 변수의 토큰을 만듬
-    private static final String SECRET_KEY = "mysecretkey";
+    // 기존 문자열 키 방식은 보안 길이 문제 발생 → Key 객체 방식으로 변경
+    // HS256 알고리즘에 맞는 안전한 키를 자동 생성해줌 (256bit 이상 보장)
+    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     // 토큰 만료 시간(1시간)
     private static final long EXPIRATION_TIME = 1000 * 60 * 60;
@@ -19,14 +22,15 @@ public class JwtUtil {
 
         // 토큰 생성 시작
         return Jwts.builder()
-                // 토큰 안에 사용자 아이디 적기
+                // 토큰 안에 사용자 아이디 적기 (JWT의 subject)
                 .setSubject(username)
                 // 토큰 발급 시간 기록
                 .setIssuedAt(new Date())
                 // EXPIRATION_TIME(1시간)과 System.currentTimeMillis()(현재 시간)을 더해서 토큰 유효 기간 설정
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                // HS256이라는 JWT 암호화 알고리즘을 통하여 SECRET_KEY를 확정
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                // HS256이라는 JWT 암호화 알고리즘을 통하여 SECRET_KEY로 서명
+                // Key 객체를 사용해야 보안 기준을 만족함
+                .signWith(SECRET_KEY)
                 // 최종 문자열 생성
                 .compact();
     }
@@ -35,15 +39,17 @@ public class JwtUtil {
     public static String getUsername(String token) {
 
         // 토큰 해석 시작
-        Claims claims = Jwts.parser()
-                // 확정 지은 토큰이 진짜인지 확인
+        Claims claims = Jwts.parserBuilder()
+                // 만든 SECRET_KEY로 서명 검증 (위조 여부 체크)
                 .setSigningKey(SECRET_KEY)
-                // 토큰의 정보가 일치하는지 검사
+                // parser 생성
+                .build()
+                // 토큰의 정보가 일치하는지 검사 (서명 + 만료시간 포함)
                 .parseClaimsJws(token)
                 // 토큰 내용 추출
                 .getBody();
 
-        // 검증이 완료된 토큰을 돌려줌
+        // 검증이 완료된 토큰에서 username 반환
         return claims.getSubject();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.DOMap.config;
 
+import com.example.DOMap.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,10 +22,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF끔
-                .authorizeRequests(auth -> auth // 요청 권한 설정 시작
-                        .requestMatchers("/api/signup").permitAll() // 회원가입 허용
+                .authorizeHttpRequests(auth -> auth // 요청 권한 설정 시작
+                        .requestMatchers("/api/signup", "/api/login").permitAll() // 회원가입 허용
+                        .requestMatchers("/api/test").authenticated() // test하려면 로그인 필요
                         .anyRequest().authenticated() // 회원가입 제외 전부 로그인 필요
                 );
+        // 필터보다 먼저 실행하여서 JWT를 먼저 검사한 뒤 보냄
+        http.addFilterBefore(new JwtFilter(),
+                org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+
         return http.build(); // 보안 시스템 완성 적용
     }
 }
