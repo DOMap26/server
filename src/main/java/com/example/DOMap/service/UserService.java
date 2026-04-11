@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor // 생성자 주입
 public class UserService {
@@ -62,7 +61,7 @@ public class UserService {
         // 비밀번호 검증
         // equals대신 matches를 사용한 이유 : 비밀번호는 암호화했으므로 비교도 암호화 방식으로 해야함
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다."); // 🔥 오타 수정
         }
 
         // JwtUtil(토큰을 만드는 법을 정의) <-> UserService(언제 토큰을 만들지, 토큰을 받는 역할)
@@ -72,6 +71,4 @@ public class UserService {
         // 토큰 반환
         return token;
     }
-
-
 }
