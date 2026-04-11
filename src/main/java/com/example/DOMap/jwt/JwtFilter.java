@@ -29,13 +29,16 @@ public class JwtFilter extends OncePerRequestFilter {
             // JwtUtil에서 username활용으로 토큰을 가져옴
             String username = JwtUtil.getUsername(token);
 
+            // 이미 인증된 사용자이므로 username만 넣고 비밀번호, 권한 등은 null로 설정
             var authentication =
                     new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                             username, null, null);
 
+            // 지금 요청의 로그인 정보를 저장하는 곳
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
+        // 다음 단계 요청으로 넘기는 코드
         filterChain.doFilter(request, response);
     }
 }
