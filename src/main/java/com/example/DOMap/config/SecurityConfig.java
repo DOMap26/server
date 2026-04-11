@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF끔
-                .authorizeRequests(auth -> auth // 요청 권한 설정 시작
+                .authorizeHttpRequests(auth -> auth // 요청 권한 설정 시작
                         .requestMatchers("/api/signup").permitAll() // 회원가입 허용
                         .anyRequest().authenticated() // 회원가입 제외 전부 로그인 필요
                 );
