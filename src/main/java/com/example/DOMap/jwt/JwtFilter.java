@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -27,7 +28,14 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             // JwtUtil에서 username활용으로 토큰을 가져옴
             String username = JwtUtil.getUsername(token);
+
+            var authentication =
+                    new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
+                            username, null, null);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
+        filterChain.doFilter(request, response);
     }
 }
