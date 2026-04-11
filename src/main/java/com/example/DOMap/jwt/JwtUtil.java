@@ -9,7 +9,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // mysecretkey라는 암호를 사용하여서 SECRET_KEY라는 변수의 토큰을 만듬
-    private static final String SECRET_KEY = "mysecretkey";
+    private static final String SECRET_KEY = "DOMapJWTSecretKeyMustBeLongEnough123456";
 
     // 토큰 만료 시간(1시간)
     private static final long EXPIRATION_TIME = 1000 * 60 * 60;
