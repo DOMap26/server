@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF끔
                 .authorizeHttpRequests(auth -> auth // 요청 권한 설정 시작
-                        .requestMatchers("/api/signup").permitAll() // 회원가입 허용
+                        .requestMatchers("/api/signup", "/api/login").permitAll() // 회원가입 허용
                         .anyRequest().authenticated() // 회원가입 제외 전부 로그인 필요
                 );
         http.addFilterBefore(new JwtFilter(),
