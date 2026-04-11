@@ -30,6 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
             String username = JwtUtil.getUsername(token);
 
             // 이미 인증된 사용자이므로 username만 넣고 비밀번호, 권한 등은 null로 설정
+            // 로그인된 사용자인지 확인하는 코드
             var authentication =
                     new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                             username, null, null);
