@@ -46,4 +46,8 @@ public class Player {
 
     @Column(nullable = false)
     private int diamond; // 다이아
+
+    @Column(nullable = false)
+    private String title; // 칭호
+
 }
