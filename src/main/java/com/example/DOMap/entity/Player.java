@@ -25,4 +25,7 @@ public class Player {
 
     @Column(nullable = false)
     private String nickname; // 게임 닉네임
+
+    @Column(nullable = false)
+    private String level; // 레벨
 }
