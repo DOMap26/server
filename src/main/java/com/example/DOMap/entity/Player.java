@@ -43,4 +43,7 @@ public class Player {
 
     @Column(nullable = false)
     private int gold; // 골드
+
+    @Column(nullable = false)
+    private int diamond; // 다이아
 }
