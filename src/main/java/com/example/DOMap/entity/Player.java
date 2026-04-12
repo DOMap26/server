@@ -31,4 +31,7 @@ public class Player {
 
     @Column(nullable = false)
     private int currentHp; // 현재 체력
+
+    @Column(nullable = false)
+    private int maxHp; // 최대 체력
 }
