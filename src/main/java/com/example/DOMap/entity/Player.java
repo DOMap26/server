@@ -39,5 +39,8 @@ public class Player {
     private int currentExp; // 현재 경험치
 
     @Column(nullable = false)
-    private int maxExp; // 최대 경험치
+    private int maxExp; // 다음 레벨까지 필요한 최대 경험치
+
+    @Column(nullable = false)
+    private int gold; // 골드
 }
