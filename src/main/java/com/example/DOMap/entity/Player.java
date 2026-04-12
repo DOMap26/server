@@ -28,4 +28,7 @@ public class Player {
 
     @Column(nullable = false)
     private String level; // 레벨
+
+    @Column(nullable = false)
+    private int currentHp; // 현재 체력
 }
