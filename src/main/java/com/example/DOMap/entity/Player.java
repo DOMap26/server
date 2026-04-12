@@ -23,4 +23,6 @@ public class Player {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
+    @Column(nullable = false)
+    private String nickname; // 게임 닉네임
 }
